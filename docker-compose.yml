@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  dining-hall:
+    container_name: dining-hall
+    build: ./
+    ports:
+      - "5001:5001"
+    volumes:
+      - "./:/app"
+  kitchen:
+    container_name: kitchen
+    build: ../KitchenServer/.
+    ports:
+      - "5000:5000"
+    volumes:
+          - "../KitchenServer/./:/app"
