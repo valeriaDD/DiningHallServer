@@ -21,9 +21,13 @@ class Waiter(threading.Thread):
         self.tables = tables
 
     def run(self):
-        while self.tables.get_tables_with_no_orders():
-            time.sleep(random.randint(2,5))
-            self.look_for_order()
+        while True:
+            if self.tables.get_tables_with_no_orders():
+                time.sleep(random.randint(2,5))
+                self.look_for_order()
+            else:
+                time.sleep(2)
+
 
     def look_for_order(self):
         order = self.tables.get_order()
