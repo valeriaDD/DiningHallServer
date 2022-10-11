@@ -1,3 +1,4 @@
+import queue
 import random
 import threading
 
@@ -10,6 +11,8 @@ class Tables:
         self.nr_of_tables = nr_of_tables
         self.tables = []
         self.tables_mutex = threading.Lock()
+        self.tables_order_mutex = threading.Lock()
+        self.prepared_foods_q = []
 
         for table_id in range(1, self.nr_of_tables + 1):
             self.tables.append(Table(table_id))
@@ -23,6 +26,16 @@ class Tables:
             order = random_table_with_no_order.get_order()
 
         return order
+
+    def waiter_has_order_to_serve(self, waiter_id):
+        for order in self.prepared_foods_q:
+            print(order)
+            if order["waiter_id"] == waiter_id:
+                self.prepared_foods_q.remove(order)
+                print(f'Order is sent to the table {order["table_id"]}')
+                return order
+            else:
+                return None
 
     def serve_order(self, table_id):
         table = self.get_table_with_id(table_id)

@@ -34,25 +34,9 @@ def receive_order():
 
     data = json.loads(data)
     app.logger.info(f"ORDER BACK FROM THE KICHEN: {data}")
-    # app.logger.info(f"Table info {json.dumps(tables.get_table_with_id(table_id[0]).get_table())}")
-
-    # tables.serve_order(table_id[0])
-    #
-    # app.logger.info("Order served!")
-    # app.logger.info(f"Table info {json.dumps(tables.get_table_with_id(table_id[0]).get_table())}")
+    tables.prepared_foods_q.append(data)
 
     return "Ok"
-
-@app.route("/get-tables")
-def get_all_tables_info():
-    return tables.get_all_tables()
-
-@app.route("/get-table")
-def get_table():
-    table_id =  request.args.get('id')
-    table = tables.get_table_with_id(table_id)
-    return json.dumps(table)
-
 
 if __name__ == '__main__':
     tables = Tables(10)

@@ -23,4 +23,5 @@ class Table:
     def receive_order(self):
         self.has_placed_order = False
         self.order = {}
+        print(f'Table {self.id} received order')
 

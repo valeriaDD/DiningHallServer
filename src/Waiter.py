@@ -22,7 +22,10 @@ class Waiter(threading.Thread):
 
     def run(self):
         while True:
-            if self.tables.get_tables_with_no_orders():
+            order = self.tables.waiter_has_order_to_serve(self.id)
+            if order is not None:
+                self.serve_order(order['table_id'])
+            elif self.tables.get_tables_with_no_orders():
                 self.tables.tables_mutex.acquire()
                 self.look_for_order()
                 self.tables.tables_mutex.release()
