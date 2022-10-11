@@ -1,5 +1,5 @@
-import json
 import random
+import threading
 
 from src.Table import Table
 
@@ -9,25 +9,20 @@ class Tables:
     def __init__(self, nr_of_tables):
         self.nr_of_tables = nr_of_tables
         self.tables = []
+        self.tables_mutex = threading.Lock()
 
         for table_id in range(1, self.nr_of_tables + 1):
             self.tables.append(Table(table_id))
 
-    def get_all_tables(self):
-        all_tables = []
-        for item in self.tables:
-            all_tables.append(item.get_table())
-
-        return json.dumps(all_tables)
-
     def get_order(self):
         random_table_with_no_order = self.__get_random_table_with_no_order()
+        order = {}
 
         if random_table_with_no_order:
             random_table_with_no_order.make_order()
-            return random_table_with_no_order.get_table()
+            order = random_table_with_no_order.get_order()
 
-        return "All full"
+        return order
 
     def serve_order(self, table_id):
         table = self.get_table_with_id(table_id)

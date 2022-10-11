@@ -18,7 +18,7 @@ class Order:
         self.__set_menu_items()
 
         order = {
-            "id": self.id,
+            "order_id": self.id,
             "priority": self.priority,
             "max_wait": self.max_wait,
             "order_items": self.order_items
@@ -29,11 +29,11 @@ class Order:
         self.priority = random.randint(1, 5)
 
     def __set_menu_items(self):
-        items_number = random.randint(1, 8)
+        items_number = random.randint(1, 10)
 
         for item in range(0, items_number):
             dish = Menu().get_random_menu_item()
-            self.order_items.append(dish)
+            self.order_items.append(dish["id"])
             self.__set_max_wait(dish.get("preparation-time"))
 
     def __set_max_wait(self, order_wait_time):

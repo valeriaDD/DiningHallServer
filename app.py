@@ -32,13 +32,14 @@ def receive_order():
     data = request.json
     app.logger.info("Order is ready!")
 
-    table_id = json.loads(data)["id"]
-    app.logger.info(f"Table info {json.dumps(tables.get_table_with_id(table_id[0]).get_table())}")
+    data = json.loads(data)
+    app.logger.info(f"ORDER BACK FROM THE KICHEN: {data}")
+    # app.logger.info(f"Table info {json.dumps(tables.get_table_with_id(table_id[0]).get_table())}")
 
-    tables.serve_order(table_id[0])
-
-    app.logger.info("Order served!")
-    app.logger.info(f"Table info {json.dumps(tables.get_table_with_id(table_id[0]).get_table())}")
+    # tables.serve_order(table_id[0])
+    #
+    # app.logger.info("Order served!")
+    # app.logger.info(f"Table info {json.dumps(tables.get_table_with_id(table_id[0]).get_table())}")
 
     return "Ok"
 
@@ -54,6 +55,6 @@ def get_table():
 
 
 if __name__ == '__main__':
-    tables = Tables(NR_OF_TABLES)
+    tables = Tables(10)
 
     app.run(debug=True, port=5001, host="0.0.0.0")

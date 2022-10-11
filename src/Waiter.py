@@ -23,16 +23,21 @@ class Waiter(threading.Thread):
     def run(self):
         while True:
             if self.tables.get_tables_with_no_orders():
-                time.sleep(random.randint(2,5))
+                self.tables.tables_mutex.acquire()
                 self.look_for_order()
+                self.tables.tables_mutex.release()
             else:
                 time.sleep(2)
 
 
     def look_for_order(self):
         order = self.tables.get_order()
-        if order != "All full" :
+        if order != {} :
+            order["waiter_id"] = self.id
+            order["pick_up_time"] = time.time()
+            time.sleep(random.randint(2, 5))
             send_order_to_kitchen(order)
 
-def serve_order(self, table_id):
+
+    def serve_order(self, table_id):
         self.tables.serve_order(table_id)
