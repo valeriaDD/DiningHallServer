@@ -26,6 +26,7 @@ class Waiter(threading.Thread):
             if order is not None:
                 self.serve_order(order['table_id'])
             elif self.tables.get_tables_with_no_orders():
+                time.sleep(30)
                 self.tables.tables_mutex.acquire()
                 self.look_for_order()
                 self.tables.tables_mutex.release()
@@ -37,8 +38,8 @@ class Waiter(threading.Thread):
         order = self.tables.get_order()
         if order != {} :
             order["waiter_id"] = self.id
+            time.sleep(random.randint(2, 4))
             order["pick_up_time"] = time.time()
-            time.sleep(random.randint(2, 5))
             send_order_to_kitchen(order)
 
 

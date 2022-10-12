@@ -27,7 +27,7 @@ def home():
 
     return "Sent!"
 
-@app.route('/order-from-kitchen', methods=['POST'])
+@app.route('/distribution', methods=['POST'])
 def receive_order():
     data = request.json
     app.logger.info("Order is ready!")
@@ -35,6 +35,7 @@ def receive_order():
     data = json.loads(data)
     app.logger.info(f"ORDER BACK FROM THE KICHEN: {data}")
     tables.prepared_foods_q.append(data)
+    tables.calculate_rating_based_on_cooking_time(data)
 
     return "Ok"
 
