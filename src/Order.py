@@ -29,7 +29,7 @@ class Order:
         self.priority = random.randint(1, 5)
 
     def __set_menu_items(self):
-        items_number = random.randint(1, 10)
+        items_number = random.randint(1, 6)
 
         for item in range(0, items_number):
             dish = Menu().get_random_menu_item()

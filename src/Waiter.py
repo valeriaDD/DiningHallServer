@@ -26,7 +26,7 @@ class Waiter(threading.Thread):
             if order is not None:
                 self.serve_order(order['table_id'])
             elif self.tables.get_tables_with_no_orders():
-                time.sleep(30)
+                time.sleep(random.randint(10, 30))
                 self.tables.tables_mutex.acquire()
                 self.look_for_order()
                 self.tables.tables_mutex.release()

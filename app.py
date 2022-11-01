@@ -39,6 +39,11 @@ def receive_order():
 
     return "Ok"
 
+@app.route('/miaw', methods=['POST'])
+def test_connection():
+    app.logger.info("Message from foodOrdering!")
+    return "Ok"
+
 if __name__ == '__main__':
     tables = Tables(10)
 

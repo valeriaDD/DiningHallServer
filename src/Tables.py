@@ -5,6 +5,19 @@ import threading
 from src.Table import Table
 
 
+def get_nr_of_stars(order):
+    if order['cooking_time'] < order['max_wait']:
+        return 5
+    elif order['cooking_time'] < order['max_wait'] * 1.1:
+        return 4
+    elif order['cooking_time'] < order['max_wait'] * 1.2:
+        return 3
+    elif order['cooking_time'] < order['max_wait'] * 1.3:
+        return 2
+
+    return 1
+
+
 class Tables:
 
     def __init__(self, nr_of_tables):
@@ -13,6 +26,9 @@ class Tables:
         self.tables_mutex = threading.Lock()
         self.tables_order_mutex = threading.Lock()
         self.prepared_foods_q = []
+        self.orders = 0
+        self.rating = 0
+        self.allraiting = 0
 
         for table_id in range(1, self.nr_of_tables + 1):
             self.tables.append(Table(table_id))
@@ -66,3 +82,15 @@ class Tables:
                 with_no_orders.append(table)
 
         return with_no_orders
+
+    def calculate_rating_based_on_cooking_time(self, order):
+        self.orders += 1
+        nr_of_stars = get_nr_of_stars(order)
+        if self.orders is not 1:
+            self.allraiting = self.allraiting + nr_of_stars
+            self.rating = self.allraiting / self.orders
+        else:
+            self.allraiting = nr_of_stars
+            self.rating = nr_of_stars
+        print(f'Rating: {self.rating}, nr of orders {self.orders}')
+        print(f'Last order rating: {nr_of_stars}  time waited: {order["cooking_time"]} for max-wait: {order["max_wait"]} order items: {len(order["items"])}')

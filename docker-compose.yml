@@ -15,3 +15,6 @@ services:
       - "5000:5000"
     volumes:
           - "../KitchenServer/./:/app"
+networks:
+  default:
+    name: restaurant
